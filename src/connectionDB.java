@@ -2,19 +2,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-class conectionBD{
-    public static void main(String[] args) {
-        Connection bd = conectarBD("world");
-        System.out.println("consultas terminadas");
-        Desconexion(bd);
-    }
-
+public class connectionDB {
     public static Connection conectarBD(String db){
         Connection conexion;
         String host = "jdbc:mysql://localhost/";
         String user = "student";
         String password = "student";
-
 
         System.out.println("Conectando...");
         try {
@@ -27,8 +20,7 @@ class conectionBD{
         return conexion;
     }
 
-    public static void Desconexion(Connection desDB){
-
+    public static void desconexion(Connection desDB){
         try {
             desDB.close();
             System.out.println("Desconectando");
@@ -36,6 +28,6 @@ class conectionBD{
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
-
     }
+
 }
