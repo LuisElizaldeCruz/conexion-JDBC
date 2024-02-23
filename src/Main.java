@@ -3,12 +3,18 @@ class Main {
 
     public static void main(String[] args) {
         connectionDB con = new connectionDB();
-        CrudOperations crO = new CrudOperations();
+        CrudOperations crOp = new CrudOperations();
+        Connection bd = con.conectarBD("carros");
 
-        Connection bd = con.conectarBD("world");
-        crO.consulta(bd);
-        con.desconexion(bd);
+        try {
+            crOp.read(bd);
+            Thread.sleep(2000);
+            crOp.insertUser(bd,"silverado",2020, "azul");
+            con.desconexion(bd);
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+
     }
-
-
 }

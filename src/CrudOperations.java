@@ -4,37 +4,52 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class CrudOperations {
-    public static void consulta(Connection con){
+    public static void read(Connection con) {
         //variables para la base de datos
-        int id, population;
-        String name, district, countryCode;
+        int id, year;
+        String model, color;
 
-        String sql = "SELECT * FROM city WHERE countrycode = 'AFG' AND population > 150000";
+        String sql = "SELECT * FROM camionetas";
         Statement stmt;
         ResultSet rs;
 
         try {
             stmt = con.createStatement();
             rs = stmt.executeQuery(sql);
-            System.out.printf("%-10s %-15s %-15s %-15s %-10s%n", "id", "name", "countryCode", "district", "population");
+            System.out.printf("%-6s %-10s %-10s %-10s%n", "id", "model", "year", "color");
 
             while (rs.next()) {
                 id = rs.getInt("id");
-                name = rs.getString("name");
-                countryCode = rs.getString("countryCode");
-                district = rs.getString("district");
-                population = rs.getInt("population");
+                model = rs.getString("model");
+                year = rs.getInt("year");
+                color = rs.getString("color");
 
-                System.out.printf("%-10s %-15s %-15s %-15s %-10s%n", id, name, countryCode, district, population);
+                System.out.printf("%-6s %-10s %-10s %-10s%n", id, model, year, color);
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
-    public static void insertUser(Connection con, String name, String password){
+    public static void insertUser(Connection con, String model, int year, String color) {
+        String sql = "INSERT INTO camionetas(model, year, color)" +
+                "VALUES ('" + model + "', " + year + ", '" + color + "')";
+        Statement stmt;
+        int result;
+        System.out.println("query");
+        System.out.println(sql);
 
+        try {
+            stmt = con.createStatement();
+            result = stmt.executeUpdate(sql);
+            if (result == 1){
+                System.out.println("Los datos fueron agregados");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        read(con);
     }
 }
