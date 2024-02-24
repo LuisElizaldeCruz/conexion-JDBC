@@ -26,6 +26,7 @@ public class CrudOperations {
 
                 System.out.printf("%-6s %-10s %-10s %-10s%n", id, model, year, color);
             }
+            System.out.printf("%n");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -43,8 +44,29 @@ public class CrudOperations {
         try {
             stmt = con.createStatement();
             result = stmt.executeUpdate(sql);
-            if (result == 1){
+            if (result == 1) {
                 System.out.println("Los datos fueron agregados");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        read(con);
+    }
+
+    public static void Delete(Connection con, int id) {
+        String sql = "DELETE FROM camionetas where id = '" + id + "'";
+        Statement stmt;
+        int result;
+
+        try {
+            stmt = con.createStatement();
+            result = stmt.executeUpdate(sql);
+
+            if (result == 1) {
+                System.out.println("Se borro el usuario id " + id);
+            } else {
+                System.out.println("El usuario " + id + " no existe");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
